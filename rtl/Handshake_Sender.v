@@ -24,7 +24,7 @@ module Handshake_Sender(
         end else if(!ready_i) begin
             valid_o_r <= 1'b0;
         end else begin
-            valid_o_r <= random_stall; //模拟随机的source
+            valid_o_r <= random_stall; //模拟随机的source valid
         end
     end
 

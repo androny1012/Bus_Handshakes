@@ -12,9 +12,7 @@ module Handshake_Type2(
 );
 
     reg 		    valid_pre_i_r;
-    reg  		    ready_pre_o_r;
     reg   	[7:0]   data_r;
-    reg 	[7:0]   dout;
 
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n) begin

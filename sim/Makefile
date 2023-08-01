@@ -1,4 +1,4 @@
-testbentch_module = tb_Handshake_Type1
+testbentch_module = tb_Handshake_Type2
 testbentch_file = $(testbentch_module).sv
 rtl_file = ../rtl/*.v
 gtkw_file = $(testbentch_module).gtkw

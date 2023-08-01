@@ -11,9 +11,14 @@ logic           ready_post   ;
 logic           valid_post   ;
 logic [7:0]     data_post    ;
 
+logic           valid_pre_random_stall;
+logic           ready_post_random_stall;
+integer         i;
+
 Handshake_Sender u_master(
     .clk(clk),
     .rst_n(rst_n),
+    .random_stall(valid_pre_random_stall),
     .ready_i(ready_pre),
     .valid_o(valid_pre),
     .data_o(data_pre)  
@@ -35,6 +40,7 @@ Handshake_Type2 u_bridge(
 Handshake_Receiver u_slave(
     .clk(clk),
     .rst_n(rst_n),
+    .random_stall(ready_post_random_stall),
     .valid_i(valid_post),
     .data_i(data_post),
     .ready_o(ready_post) 
@@ -64,7 +70,15 @@ end
 
 initial begin
     $display("***********tb_easy_shifter test*****************");
-    #300
+    i = 0;
+    valid_pre_random_stall = 0;
+    ready_post_random_stall = 0;
+    for(i = 0; i< 150 ; i = i + 1) begin
+        valid_pre_random_stall = $random(); 
+        ready_post_random_stall = $random(); 
+        #2;
+    end
+    // #300
     $finish;
 end
 
