@@ -17,3 +17,5 @@
     1)透传，搭建tb框架
     2)当对valid进行打拍后，master会产生的valid和ready能实现同步
       当bridge直接用打拍后的valid会出现valid和ready对不上的情况
+
+      data应该用打拍前的valid还是打拍后的，打拍后的怎么用……

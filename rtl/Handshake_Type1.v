@@ -1,3 +1,5 @@
+`timescale 1ns / 1ns
+
 module Handshake_Type1(
     input           clk,
     input           rst_n,

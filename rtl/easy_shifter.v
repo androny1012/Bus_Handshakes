@@ -1,3 +1,5 @@
+`timescale 1ns / 1ns
+
 module easy_shifter(
         input           clk    ,
         input           rst    ,

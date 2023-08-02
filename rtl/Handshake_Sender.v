@@ -1,3 +1,5 @@
+`timescale 1ns / 1ns
+
 module Handshake_Sender(
     input               clk,
     input               rst_n,
@@ -12,22 +14,20 @@ module Handshake_Sender(
 
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n) begin
-            cnt  <= 'b0;
-        end else if(valid_o) begin
-            cnt  <= cnt + 1'b1;
+            cnt  <= 'b1;
+        end else if(valid_o && ready_i) begin //本级确认握手才送下一个数
+            cnt  <= #1 cnt + 1'b1;
         end
     end
 
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n) begin
             valid_o_r <= 1'b0;
-        end else if(!ready_i) begin
-            valid_o_r <= 1'b0;
         end else begin
-            valid_o_r <= random_stall; //模拟随机的source valid
+            valid_o_r <= #1 random_stall; //模拟随机的source valid
         end
     end
 
     assign valid_o = valid_o_r;
-    assign data_o  = cnt;
+    assign data_o  = valid_o_r ? cnt : 'b0;
 endmodule

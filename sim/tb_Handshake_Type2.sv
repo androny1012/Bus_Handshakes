@@ -10,10 +10,13 @@ logic [7:0]     data_pre    ;
 logic           ready_post   ;
 logic           valid_post   ;
 logic [7:0]     data_post    ;
+logic [7:0]     data_ref     ;
 
 logic           valid_pre_random_stall;
 logic           ready_post_random_stall;
 integer         i;
+integer         err;
+integer         cycle_cnt;
 
 Handshake_Sender u_master(
     .clk(clk),
@@ -54,32 +57,105 @@ begin
     $dumpvars(0, tb_Handshake_Type2);    //tb模块名称
 end
 
+parameter clk_period = 10;  
 
 always begin
-    #1 clk = ~clk;  
+    #(clk_period/2) clk = ~clk;  
 end
 
 initial begin
     clk = 1'b1;
     rst_n = 1'b0;
+    cycle_cnt = 0;
 
-    #10;
+    #(clk_period*5);
     @(negedge clk); rst_n = 1'b1;
 end
 
 
 initial begin
-    $display("***********tb_easy_shifter test*****************");
+    data_ref = 'b1;
+    err = 0;
+    while(1) begin
+        @(posedge clk) begin
+            if(valid_post && ready_post) begin
+                data_ref <= #1 data_ref + 1'b1;
+                if(data_post != data_ref) begin
+                    err <= err + 1;
+                    $display("data_post: %d, data_ref: %d", data_post, data_ref);
+                end
+            end
+        end
+    end
+end
+
+
+initial begin
+    $display("*********** tb_Handshake_Type2 *****************");
     i = 0;
     valid_pre_random_stall = 0;
     ready_post_random_stall = 0;
-    for(i = 0; i< 150 ; i = i + 1) begin
-        valid_pre_random_stall = $random(); 
+    @(posedge rst_n);
+    // #(clk_period*5);
+    // #(clk_period);
+    // valid_pre_random_stall  = 1; 
+    // ready_post_random_stall = 0; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 1; 
+    // ready_post_random_stall = 1; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 0; 
+    // ready_post_random_stall = 1; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 0; 
+    // ready_post_random_stall = 1; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 1; 
+    // ready_post_random_stall = 1; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 1; 
+    // ready_post_random_stall = 1; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 0; 
+    // ready_post_random_stall = 1; 
+    
+    // #(clk_period);
+    // valid_pre_random_stall  = 0; 
+    // ready_post_random_stall = 1;
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 1; 
+    // ready_post_random_stall = 1; 
+
+    // #(clk_period);
+    // valid_pre_random_stall  = 1; 
+    // ready_post_random_stall = 1;    
+
+    // #(clk_period*5);  
+
+    // for(i = 0; i< 150 ; i = i + 1) begin
+    while(data_ref <= 8'd10) begin
+        // valid_pre_random_stall  = 1; 
+        // ready_post_random_stall = 1; 
+        valid_pre_random_stall  = $random(); 
         ready_post_random_stall = $random(); 
-        #2;
+        #(clk_period);
+        cycle_cnt = cycle_cnt + 1;
     end
     // #300
+    $display("cycle_cnt: %d", cycle_cnt);
+    if(err == 0)
+        $display("*****************PASSED*************************");
+    else
+        $display("******************ERROR*************************");    
     $finish;
 end
 
 endmodule
+
