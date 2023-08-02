@@ -18,6 +18,7 @@ module Handshake_Type2(
         if(!rst_n) begin
             valid_pre_i_r <= 1'b0;
         end else if(valid_pre_i) begin
+        // end else if(valid_pre_i && ready_pre_o) begin
             // 只要上一级握手，送进来的数就有效  x
             // 只要上一级给valid，就应该是valid √
             valid_pre_i_r <= #1 1'b1;       

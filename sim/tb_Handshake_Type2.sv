@@ -140,7 +140,7 @@ initial begin
     // #(clk_period*5);  
 
     // for(i = 0; i< 150 ; i = i + 1) begin
-    while(data_ref <= 8'd10) begin
+    while(data_ref <= 8'd200) begin
         // valid_pre_random_stall  = 1; 
         // ready_post_random_stall = 1; 
         valid_pre_random_stall  = $random(); 

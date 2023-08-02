@@ -20,6 +20,24 @@
 
       data应该用打拍前的valid还是打拍后的，打拍后的怎么用……
       
+      原实现：
+        valid_pre_i_r <= valid_pre_i && ready_pre_o
+        ready_pre_o    = ready_post_i
+
+        前级握手后才能送入数据
+        给前级是ready直接透传
+    
+    在valid打拍后，slave看到的valid晚一个周期，那就可能出现后级miss了not valid，也就是握了不该握的手，因此可以只在前级握手时往后传valid
+
+      提升吞吐率：
+        valid_pre_i_r <= valid_pre_i
+        ready_pre_o    = !valid_post_o | ready_post_i;
+
+    为了提升吞吐率，我们可以利用上这个多余的握手，如果多余的握手传的是下一个准备好的数据，那不就能提升吞吐率
+
+    因为目前的结果是slave会多握手一次，处理方式就是让master也多握手一次
+    在产生给master的ready时，不仅传递slave的ready，并且加上!valid_post_o，当本级没有valid的数据时，就是master可以发数据的时机，这种情况下，尽管slave还没ready，但matser中的数据已经放在了寄存器中，只要后级ready就可以往后送，而且送的数据相比之前是额外送的，因为本级的valid和后级的valid并没有delay
+
     3)当对ready进行打拍后，slave的not ready传递会晚一个周期，因此master收到not ready时可能已经进行了一次握手传输，而slave又不能接收，需要加入buffer
       提炼出这个情况下的关键条件
       ready_miss = valid_pre_i && ready_pre_o && !ready_post_i;

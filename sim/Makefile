@@ -1,4 +1,4 @@
-testbentch_module = tb_Handshake_Type4
+testbentch_module = tb_Handshake_Type3
 testbentch_file = $(testbentch_module).sv
 rtl_file = ../rtl/*.v
 gtkw_file = $(testbentch_module).gtkw
@@ -7,9 +7,11 @@ compile:
 	iverilog -g2012 -o $(testbentch_module).vvp $(rtl_file) $(testbentch_file)
 
 run:
+	iverilog -g2012 -o $(testbentch_module).vvp $(rtl_file) $(testbentch_file)
 	vvp -n $(testbentch_module).vvp -lxt2
 
 wave:
+	iverilog -g2012 -o $(testbentch_module).vvp $(rtl_file) $(testbentch_file)
 	vvp -n $(testbentch_module).vvp -lxt2
 
     ifneq "$(wildcard $(gtkw_file))" ""
