@@ -19,8 +19,10 @@
       当bridge直接用打拍后的valid会出现valid和ready对不上的情况
 
       data应该用打拍前的valid还是打拍后的，打拍后的怎么用……
-
+      
     3)当对ready进行打拍后，slave的not ready传递会晚一个周期，因此master收到not ready时可能已经进行了一次握手传输，而slave又不能接收，需要加入buffer
       提炼出这个情况下的关键条件
       ready_miss = valid_pre_i && ready_pre_o && !ready_post_i;
       只有master错过了not ready的情况下发起了传输，才需要用buffer
+
+    4)级联 2、3 实现的模块  同时对两个寄存器都打拍
