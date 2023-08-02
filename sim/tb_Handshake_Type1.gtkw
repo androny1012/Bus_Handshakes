@@ -1,0 +1,60 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon Jul 31 10:00:46 2023
+[*]
+[dumpfile] "/home/anne/work/1_IC/2_Lib/Bus_Handshakes/sim/tb_Handshake_Type1.vcd"
+[dumpfile_mtime] "Mon Jul 31 09:52:28 2023"
+[dumpfile_size] 1449
+[savefile] "/home/anne/work/1_IC/2_Lib/Bus_Handshakes/sim/tb_Handshake_Type1.gtkw"
+[timestart] 0
+[size] 1428 819
+[pos] 11795 32
+*-3.519924 28 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_Handshake_Type1.
+[sst_width] 214
+[signals_width] 158
+[sst_expanded] 1
+[sst_vpaned_height] 226
+@28
+tb_Handshake_Type1.u_master.clk[0]
+@200
+-sender
+@28
+tb_Handshake_Type1.u_master.rst_n[0]
+@24
+tb_Handshake_Type1.u_master.cnt[7:0]
+tb_Handshake_Type1.u_master.data_o[7:0]
+@28
+tb_Handshake_Type1.u_master.valid_o[0]
+tb_Handshake_Type1.u_master.ready_i[0]
+@200
+-
+-bridge
+@28
+tb_Handshake_Type1.u_bridge.valid_pre_i[0]
+tb_Handshake_Type1.u_bridge.ready_pre_o[0]
+@24
+tb_Handshake_Type1.u_bridge.data_pre_i[7:0]
+@200
+-
+@28
+tb_Handshake_Type1.u_bridge.valid_post_o[0]
+tb_Handshake_Type1.u_bridge.ready_post_i[0]
+@24
+tb_Handshake_Type1.u_bridge.data_post_o[7:0]
+@200
+-
+-slave
+-
+@28
+tb_Handshake_Type1.u_slave.valid_i[0]
+tb_Handshake_Type1.u_slave.ready_o[0]
+@24
+tb_Handshake_Type1.u_slave.data_i[7:0]
+@200
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0
