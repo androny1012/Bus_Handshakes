@@ -1,20 +1,20 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Aug  2 09:06:47 2023
+[*] Thu Aug  3 03:03:30 2023
 [*]
 [dumpfile] "/home/anne/work/1_IC/2_Lib/Bus_Handshakes/sim/tb_Handshake_Type3.vcd"
-[dumpfile_mtime] "Wed Aug  2 09:05:16 2023"
-[dumpfile_size] 11107
+[dumpfile_mtime] "Thu Aug  3 02:58:37 2023"
+[dumpfile_size] 7501
 [savefile] "/home/anne/work/1_IC/2_Lib/Bus_Handshakes/sim/tb_Handshake_Type3.gtkw"
 [timestart] 0
-[size] 1000 607
-[pos] 7781 43
-*-5.878761 123 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 1428 819
+[pos] 7776 0
+*-6.878761 282 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_Handshake_Type3.
 [sst_width] 214
 [signals_width] 158
 [sst_expanded] 1
-[sst_vpaned_height] 156
+[sst_vpaned_height] 232
 @28
 tb_Handshake_Type3.u_bridge.clk[0]
 tb_Handshake_Type3.u_bridge.rst_n[0]

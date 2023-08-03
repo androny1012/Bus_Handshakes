@@ -14,7 +14,7 @@ module Handshake_Receiver(
         if(!rst_n) begin
             ready_o_r <= 1'b0;
         end else begin
-            ready_o_r <= #1 random_stall; //模拟随机的source ready
+            ready_o_r <= random_stall; //模拟随机的source ready
         end
     end
     assign ready_o = ready_o_r;

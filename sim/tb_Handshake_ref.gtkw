@@ -1,0 +1,56 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Thu Aug  3 01:06:56 2023
+[*]
+[dumpfile] "/home/anne/work/1_IC/2_Lib/Bus_Handshakes/sim/tb_Handshake_ref.vcd"
+[dumpfile_mtime] "Thu Aug  3 00:50:22 2023"
+[dumpfile_size] 4978
+[savefile] "/home/anne/work/1_IC/2_Lib/Bus_Handshakes/sim/tb_Handshake_ref.gtkw"
+[timestart] 556
+[size] 1428 819
+[pos] 32767 32947
+*-6.000000 738 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_Handshake_ref.
+[treeopen] tb_Handshake_ref.U1.
+[treeopen] tb_Handshake_ref.U1.genblk1[1].
+[treeopen] tb_Handshake_ref.U1.genblk1[2].
+[treeopen] tb_Handshake_ref.U1.genblk1[3].
+[treeopen] tb_Handshake_ref.U1.genblk1[4].
+[treeopen] tb_Handshake_ref.U2.
+[treeopen] tb_Handshake_ref.U2.genblk1[1].
+[treeopen] tb_Handshake_ref.U2.genblk1[2].
+[treeopen] tb_Handshake_ref.U2.genblk1[3].
+[treeopen] tb_Handshake_ref.U2.genblk1[4].
+[sst_width] 214
+[signals_width] 222
+[sst_expanded] 1
+[sst_vpaned_height] 229
+@28
+tb_Handshake_ref.U1.clk[0]
+@24
+tb_Handshake_ref.U1.master_data_in[15:0]
+@28
+tb_Handshake_ref.U1.master_valid_in[0]
+tb_Handshake_ref.U1.slave_ready_out[0]
+@200
+-
+@24
+tb_Handshake_ref.U1.genblk1[1].reg_valid_inst.data_down[15:0]
+tb_Handshake_ref.U1.genblk1[2].reg_valid_inst.data_down[15:0]
+tb_Handshake_ref.U1.genblk1[3].reg_valid_inst.data_down[15:0]
+tb_Handshake_ref.U1.genblk1[4].reg_valid_inst.data_down[15:0]
+@200
+-
+@25
+tb_Handshake_ref.U2.genblk1[1].reg_ready_inst.data_down[15:0]
+tb_Handshake_ref.U2.genblk1[2].reg_ready_inst.data_down[15:0]
+tb_Handshake_ref.U2.genblk1[3].reg_ready_inst.data_down[15:0]
+tb_Handshake_ref.U2.genblk1[4].reg_ready_inst.data_down[15:0]
+@200
+-
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0

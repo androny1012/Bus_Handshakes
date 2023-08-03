@@ -7,15 +7,9 @@ logic           rst_n   ;
 logic           ready_pre   ;
 logic           valid_pre   ;
 logic [7:0]     data_pre    ;
-
-logic           ready_pre1   ;
-logic           valid_pre1   ;
-logic [7:0]     data_pre1    ;
-
 logic           ready_post   ;
 logic           valid_post   ;
 logic [7:0]     data_post    ;
-
 logic [7:0]     data_ref     ;
 
 logic           valid_pre_random_stall;
@@ -33,26 +27,13 @@ Handshake_Sender u_master(
     .data_o(data_pre)  
 );
 
-Handshake_Type2 u_bridge(
+Handshake_Type4 u_bridge(
     .clk(clk),
     .rst_n(rst_n),
     
     .ready_pre_o(ready_pre),
     .valid_pre_i(valid_pre),
     .data_pre_i(data_pre),
-
-    .valid_post_o(valid_pre1),    //to post-stage
-    .data_post_o(data_pre1),  	//to post-stage
-    .ready_post_i(ready_pre1)     //from post-stage
-);
-
-Handshake_Type3 u_bridge1(
-    .clk(clk),
-    .rst_n(rst_n),
-    
-    .ready_pre_o(ready_pre1),
-    .valid_pre_i(valid_pre1),
-    .data_pre_i(data_pre1),
 
     .valid_post_o(valid_post),    //to post-stage
     .data_post_o(data_post),  	//to post-stage
