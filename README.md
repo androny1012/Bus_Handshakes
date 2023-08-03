@@ -20,22 +20,22 @@
 
 ### Valid打拍
     2)当对valid进行打拍后，master会产生的valid和ready能实现同步
-      当bridge直接用打拍后的valid会出现valid和ready对不上的情况
+        当bridge直接用打拍后的valid会出现valid和ready对不上的情况
 
-      data应该用打拍前的valid还是打拍后的，打拍后的怎么用……
+        data应该用打拍前的valid还是打拍后的，打拍后的怎么用……
       
-      原实现：
-        valid_pre_i_r <= valid_pre_i && ready_pre_o
-        ready_pre_o    = ready_post_i
+        原实现：
+            valid_pre_i_r <= valid_pre_i && ready_pre_o
+            ready_pre_o    = ready_post_i
 
         前级握手后才能送入数据
         给前级是ready直接透传
     
     在valid打拍后，slave看到的valid晚一个周期，那就可能出现后级miss了not valid，也就是握了不该握的手，因此可以只在前级握手时往后传valid
 
-      提升吞吐率：
-        valid_pre_i_r <= valid_pre_i
-        ready_pre_o    = !valid_post_o | ready_post_i;
+        提升吞吐率：
+            valid_pre_i_r <= valid_pre_i
+            ready_pre_o    = !valid_post_o | ready_post_i;
 
     为了提升吞吐率，我们可以利用上这个多余的握手，如果多余的握手传的是下一个准备好的数据，那不就能提升吞吐率
 
@@ -66,7 +66,7 @@
         相当于这是个FIFO，FIFO为空，当然可以送数进来
         这个多出来的条件就是利用了深度为1的FIFO挤掉了气泡
 
-        再深入分析FIFO的特性，再FIFO满的时候，如果同时前级valid(enq)，后级ready(deq)
+        再深入分析FIFO的特性，在FIFO满的时候，如果同时前级valid(enq)，后级ready(deq)
         那么会发生的情况就把后级数据送出去的同时，寄存器中的数换成前级送入的数
         这个行为和深度为1的 pipeline fifo 行为一致
         
@@ -74,41 +74,53 @@
 
 ### Ready打拍
     3)当对ready进行打拍后，slave的not ready传递会晚一个周期，因此master收到not ready时可能已经进行了一次握手传输，而slave又不能接收，需要加入buffer
-      提炼出这个情况下的关键条件
+        提炼出这个情况下的关键条件
 
-      只有master错过了not ready的情况下发起了传输，才需要用buffer
-      ready_miss = valid_pre_i && ready_pre_o && !ready_post_i
-      valid_buf <= 1'b1
+        只有master错过了not ready的情况下发起了传输，才需要用buffer
+        ready_miss = valid_pre_i && ready_pre_o && !ready_post_i
+        valid_buf <= 1'b1
 
-      逻辑简化
-      ready_miss = ready_pre_o && !ready_post_i
-      valid_buf <= valid_pre_i
+        逻辑简化
+        ready_miss = ready_pre_o && !ready_post_i
+        valid_buf <= valid_pre_i
 
-      valid_buf 还需要一个清空的条件，否则会持续为高，往外送数
-      只要ready_post_i为高，valid_buf下个周期一定为零
-      两个情况，buf中有数，那么就会和后级握手，送数出去
-               buf中没数，ready_post_i，不会发生ready_miss的情况，buf中不会有数
+        valid_buf 还需要一个清空的条件，否则会持续为高，往外送数
+        只要ready_post_i为高，valid_buf下个周期一定为零
+        两个情况， buf中有数，那么就会和后级握手，送数出去
+                  buf中没数，ready_post_i，不会发生ready_miss的情况，buf中不会有数
 
-      本来ready是直接打拍的信号
-      ready_pre_o  = ready_post_i_r
-      透传 or 输出buf中的数
-      valid_post_o = (valid_pre_i && ready_pre_o) | valid_buf
+        本来ready是直接打拍的信号
+        ready_pre_o  = ready_post_i_r
+        透传 or 输出buf中的数
+        valid_post_o = (valid_pre_i && ready_pre_o) | valid_buf
 
-      但只要buf中没有数就前级可以往里送数  
-      ready_pre_o  = !valid_buf
-      valid_post_o = valid_pre_i | valid_buf
+        但只要buf中没有数就前级可以往里送数  
+        ready_pre_o  = !valid_buf
+        valid_post_o = valid_pre_i | valid_buf
 
-      一个case可以测出这个情况，ready为高的时候突然拉低一个周期，然后又拉高
-      上面的条件会认为master会miss这个not ready，把数直接放buf里，但由于下个周期又拉高了，因此还是能直接透传数据，不需要buf
-      即使不拉高，也能放到buf里暂存，因此只要buf中没数，就可以往里送数
+        一个case可以测出这个情况，ready为高的时候突然拉低一个周期，然后又拉高
+        上面的条件会认为master会miss这个not ready，把数直接放buf里，但由于下个周期又拉高了，因此还是能直接透传数据，不需要buf
+        即使不拉高，也能放到buf里暂存，因此只要buf中没数，就可以往里送数
+
+
+        也可以认为这是个FIFO，FIFO为空，就可以用于暂存miss掉的数据
+        利用了深度为1的FIFO，暂存了数据
+
+        再深入分析FIFO的特性，在FIFO空的时候，如果同时前级valid(enq)，后级ready(deq)
+        那么会发生的情况就把是bypass，数据直接透传
+        这个行为和深度为1的 bypss fifo 行为一致
 
 ### Valid和Ready打拍
     4)级联 2、3 实现的模块  同时对两个寄存器都打拍
-      为了保证都是输出都是寄存器输出的，考虑级联的顺序
+        为了保证都是输出都是寄存器输出的，考虑级联的顺序
 
-      3是向前级传递的ready寄存器输出
-      2是向后级传递的valid寄存器输出
-      应该把3接在前面，2接在后面，
+        3是向前级传递的ready寄存器输出
+        2是向后级传递的valid寄存器输出
+        应该把3接在前面，2接在后面
+
+        因为里面对data打拍，还有data buf其实可以认为是深度为2的fifo
+        而这个fifo的行为则是在不空不满时能够同时enq和deq
+        与CFFIFO行为一致
 
 
 ### REF
