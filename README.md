@@ -1,17 +1,33 @@
 # Bus_Handshakes
 
+    握手是要解决什么问题，是在什么场景用到？
+
+    本项目对基本的握手协议进行了实现和原理分析。
+
     总线握手场景描述：
     a) 总线master发出data信号，同时master用valid信号拉高表示data有效；
     b) 总线slave发出ready信号，ready信号拉高表示slave可以接收数据；
     c) 当valid和slave同时为高时，表示data信号从master到slave发送接收成功。
 
-## 总线握手打拍实现要求：
+## 总线握手打拍实现要求
+
     1) 实现上述总线同步握手场景，不考虑异步场景；
     2) 假定master的valid信号不满足时序要求，要对valid信号用寄存器打一拍，实现该总线握手场景；
     3) 假定slave的ready信号不满足时序要求，要对ready信号用寄存器打一拍，实现该总线握手场景；
     4) 假定valid和ready信号都不满足时序要求，都需要用寄存器打一拍，实现该总线握手场景。
 
-    握手是要解决什么问题，是在什么场景用到？
+## 进行仿真
+
+    cd sim
+
+### 编译
+    make compile
+
+### 运行看结果是否一致
+    make run
+
+### 看波形
+    make all
 
 ## 解决方案
 
@@ -125,3 +141,4 @@
 
 ### REF
 - https://www.itdev.co.uk/blog/pipelining-axi-buses-registered-ready-signals
+- 知乎上各种文章
