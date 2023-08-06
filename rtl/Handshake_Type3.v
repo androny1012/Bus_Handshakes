@@ -46,6 +46,61 @@ module Handshake_Type3(
 endmodule
 
 
+//stall思路 (ok)
+
+// module Handshake_Type3(
+//     input           clk,
+//     input           rst_n,
+
+//     input           valid_pre_i,    //from pre-stage
+//     input   [7:0]   data_pre_i,     //from pre-stage
+//     output          ready_pre_o,    //to pre-stage
+
+//     output          valid_post_o,   //to post-stage
+//     output  [7:0]   data_post_o,    //to post-stage
+//     input           ready_post_i    //from post-stage
+// );
+
+    
+//     reg             ready_pre_o_r;
+//     reg             valid_buf;
+//     reg     [7:0]   data_buf;
+//     wire            slave_stall;
+//     wire            valid_req;
+//     assign slave_stall = valid_post_o && !ready_post_i;
+//     assign valid_req   = valid_pre_i  ||  valid_buf;
+//     always @(posedge clk or negedge rst_n) begin
+//         if(!rst_n) begin
+//             valid_buf <= 1'b0;
+//         end else if(slave_stall) begin
+//             valid_buf <= 1'b1;
+//         end else begin
+//             valid_buf <= 1'b0;
+//         end
+//     end
+
+//     always @(posedge clk or negedge rst_n) begin
+//         if(slave_stall && !valid_buf) begin
+//             data_buf <= data_pre_i;
+//         end
+//     end
+
+//     always @(posedge clk or negedge rst_n) begin
+//         if(!rst_n) begin
+//             ready_pre_o_r <= 1'b1;
+//         end else if(slave_stall) begin
+//             ready_pre_o_r <= !valid_req;
+//         end else begin
+//             ready_pre_o_r <= 1'b1;
+//         end
+//     end
+
+//     assign ready_pre_o  = ready_pre_o_r; //挤掉气泡
+//     assign valid_post_o = valid_pre_i | valid_buf;
+//     assign data_post_o  = valid_buf ? data_buf : data_pre_i;
+    
+// endmodule
+
 // module Handshake_Type3(
 //     input           clk,
 //     input           rst_n,

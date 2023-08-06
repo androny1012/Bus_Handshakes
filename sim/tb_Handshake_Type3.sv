@@ -79,7 +79,7 @@ initial begin
     while(1) begin
         @(posedge clk) begin
             if(valid_post && ready_post) begin
-                data_ref <= #1 data_ref + 1'b1;
+                data_ref <= data_ref + 1'b1;
                 if(data_post != data_ref) begin
                     err <= err + 1;
                     $display("data_post: %d, data_ref: %d", data_post, data_ref);
