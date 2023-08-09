@@ -87,6 +87,7 @@
         这个行为和深度为1的 pipeline fifo 行为一致
         
         如果所有模块都用此模块握手，由于ready没有打拍，会变成关键路径
+<img src="./README.assets/Bus_Handshakes-Valid.png" alt="Bus_Handshakes-Valid" />
 
 ### Ready打拍
     3)当对ready进行打拍后，slave的not ready传递会晚一个周期，因此master收到not ready时可能已经进行了一次握手传输，而slave又不能接收，需要加入buffer
@@ -125,6 +126,7 @@
         再深入分析FIFO的特性，在FIFO空的时候，如果同时前级valid(enq)，后级ready(deq)
         那么会发生的情况就把是bypass，数据直接透传
         这个行为和深度为1的 bypss fifo 行为一致
+<img src="./README.assets/Bus_Handshakes-Ready.png" alt="Bus_Handshakes-Ready" />
 
 ### Valid和Ready打拍
     4)级联 2、3 实现的模块  同时对两个寄存器都打拍
@@ -138,6 +140,11 @@
         而这个fifo的行为则是在不空不满时能够同时enq和deq
         与CFFIFO行为一致
 
+错误的实现
+<img src="./README.assets/Bus_Handshakes-Reg_Wrong.png" alt="Bus_Handshakes-Reg_Wrong" />
+
+正确实现，输出都为寄存器
+<img src="./README.assets/Bus_Handshakes-Reg.png" alt="Bus_Handshakes-Reg" />
 
 ### REF
 - https://www.itdev.co.uk/blog/pipelining-axi-buses-registered-ready-signals
